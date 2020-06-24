@@ -5,6 +5,8 @@ import { Switch, BrowserRouter, Route } from "react-router-dom";
 import GlobalStyle from "./GlobalStyle";
 import hooks from "./hooks";
 import themes from "./themes";
+import Posts from "./features/posts/components/Posts";
+import CreatePost from "./features/posts/components/CreatePost";
 
 function App() {
   const dark = hooks.usePreferredTheme();
@@ -15,8 +17,8 @@ function App() {
       <GlobalStyle />
       <BrowserRouter>
         <Switch>
-          <Route></Route>
-          <Route></Route>
+          <Route path="/posts/create" component={CreatePost}></Route>
+          <Route path="/posts" exact component={Posts}></Route>
         </Switch>
       </BrowserRouter>
     </ThemeProvider>
