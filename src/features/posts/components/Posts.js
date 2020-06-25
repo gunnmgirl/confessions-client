@@ -8,9 +8,8 @@ function Posts() {
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    console.log("uso do dipetch");
     dispatch(getPosts());
-  }, [posts.length, dispatch]);
+  }, [dispatch]);
 
   console.log(posts);
 
