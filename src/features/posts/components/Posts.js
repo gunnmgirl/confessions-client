@@ -22,13 +22,17 @@ const PostList = styled.div`
   display: flex;
   flex-direction: column;
   justify-items: center;
+  align-items: center;
   width: 100%;
 `;
 
 const Confess = styled.div`
+  position: sticky;
+  top: 0;
   display: flex;
   flex-direction: column;
   width: 100%;
+  height: min-content;
 `;
 
 const StyledButton = styled.button`
