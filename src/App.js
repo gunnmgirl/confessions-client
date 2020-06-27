@@ -18,7 +18,7 @@ function App() {
       <BrowserRouter>
         <Switch>
           <Route path="/posts/create" component={CreatePost}></Route>
-          <Route path="/posts" exact component={Posts}></Route>
+          <Route path="/posts" component={Posts}></Route>
         </Switch>
       </BrowserRouter>
     </ThemeProvider>

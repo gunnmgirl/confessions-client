@@ -6,7 +6,7 @@ import mutatios from "../../../api/mutations";
 function* getPosts(action) {
   try {
     const data = yield call(queries.getPosts);
-    const posts = data.data.posts;
+    const posts = data.data;
     yield put({ type: "GET_POSTS_SUCCESS", payload: posts });
   } catch (error) {
     yield put({ type: "GET_POSTS_FAILURE", error });
