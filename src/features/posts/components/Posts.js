@@ -8,6 +8,7 @@ import PostItem from "./PostItem";
 
 const Container = styled.div`
   background-color: ${(props) => props.theme.backgroundPrimary};
+  min-height: 100vh;
 `;
 
 const Wrapper = styled.div`
@@ -44,21 +45,39 @@ const StyledButton = styled.button`
 `;
 
 function Posts() {
-  const data = useSelector((state) => state.posts);
+  const posts = useSelector((state) => state.posts.posts);
+  const loading = useSelector((state) => state.posts.loading);
+  const error = useSelector((state) => state.posts.error);
   const dispatch = useDispatch();
   const history = useHistory();
 
   React.useEffect(() => {
-    dispatch(getPosts());
-  }, [dispatch]);
+    if (!posts || posts.length === 0) {
+      dispatch(getPosts());
+    }
+  }, [dispatch, posts, loading, error]);
+
+  function handleOnClick(postId) {
+    history.push(`/posts/${postId}`);
+  }
 
   return (
     <Container>
       <Wrapper>
         <PostList>
-          {data.posts.map((post) => (
-            <PostItem post={post} key={post._id} />
-          ))}
+          {loading && !error ? (
+            <p>Loading..</p>
+          ) : !loading && error ? (
+            <p>Could not get posts</p>
+          ) : (
+            posts.map((post) => (
+              <PostItem
+                post={post}
+                key={post._id}
+                onClick={() => handleOnClick(post._id)}
+              />
+            ))
+          )}
         </PostList>
         <Confess>
           <p>Confessed faults are half-mended.</p>

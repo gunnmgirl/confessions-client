@@ -37,7 +37,7 @@ const StyledButton = styled.button`
 `;
 
 const Wrapper = styled.div`
-  width: 50%;
+  width: 40%;
   height: 50%;
   display: flex;
   flex-direction: column;

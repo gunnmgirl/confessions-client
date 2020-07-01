@@ -11,7 +11,7 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   background-color: ${(props) => props.theme.backgroundSecondary};
-  margin-bottom: 1rem;
+  margin: 1rem 0;
 `;
 
 const Info = styled.div`
@@ -52,7 +52,8 @@ const Content = styled.div`
 `;
 
 function PostItem(props) {
-  const { post } = props;
+  const { post, onClick } = props;
+
   return (
     <Container>
       <Content>
@@ -68,7 +69,13 @@ function PostItem(props) {
           <StyledNumber>{post.downvotes}</StyledNumber>
         </Wrapper>
         <Wrapper>
-          <MessageSquare size="20" strokeWidth="1.5" />
+          <MessageSquare
+            size="20"
+            strokeWidth="1.5"
+            onClick={() => {
+              onClick();
+            }}
+          />
           <StyledNumber>{post.comments.length}</StyledNumber>
         </Wrapper>
       </Info>
