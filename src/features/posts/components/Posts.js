@@ -55,7 +55,7 @@ function Posts() {
     if (!posts || posts.length === 0) {
       dispatch(getPosts());
     }
-  }, [dispatch, posts, loading, error]);
+  }, [dispatch, posts]);
 
   function handleOnClick(postId) {
     history.push(`/posts/${postId}`);
@@ -70,6 +70,7 @@ function Posts() {
           ) : !loading && error ? (
             <p>Could not get posts</p>
           ) : (
+            posts &&
             posts.map((post) => (
               <PostItem
                 post={post}

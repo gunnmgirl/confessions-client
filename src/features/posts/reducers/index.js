@@ -21,7 +21,7 @@ export default (state = INITIAL_STATE, action) => {
     case "GET_POSTS_SUCCESS":
       return {
         ...state,
-        posts: action.payload,
+        posts: [...state.posts, ...action.payload],
         loading: false,
         error: false,
       };
@@ -58,6 +58,7 @@ export default (state = INITIAL_STATE, action) => {
       };
     case "GET_POST_SUCCESS":
       return {
+        ...state,
         post: action.payload,
         loading: false,
         error: false,
