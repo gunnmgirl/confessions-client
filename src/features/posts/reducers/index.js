@@ -12,6 +12,25 @@ const INITIAL_STATE = {
 
 export default (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case "SORT_BY_LATEST":
+      return {
+        ...state,
+        posts: state.posts.concat().sort(function (a, b) {
+          return new Date(b.date) - new Date(a.date);
+        }),
+      };
+    case "SORT_BY_POPULAR":
+      return {
+        ...state,
+        posts: state.posts.concat().sort(function (a, b) {
+          return b.upvotes - a.upvotes;
+        }),
+      };
+    case "SORT_BY_RANDOM":
+      return {
+        ...state,
+        posts: state.posts.concat().sort(),
+      };
     case "GET_POSTS_REQUEST":
       return {
         ...state,

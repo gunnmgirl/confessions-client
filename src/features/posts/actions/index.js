@@ -1,3 +1,20 @@
+export const sortByLatest = () => {
+  return {
+    type: "SORT_BY_LATEST",
+  };
+};
+
+export const sortByPopular = () => {
+  return {
+    type: "SORT_BY_POPULAR",
+  };
+};
+
+export const sortByRandom = () => {
+  return {
+    type: "SORT_BY_RANDOM",
+  };
+};
 export const getPosts = () => {
   return {
     type: "GET_POSTS_REQUEST",

@@ -3,10 +3,15 @@ import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 
-import { getPosts } from "../actions";
+import {
+  getPosts,
+  sortByLatest,
+  sortByPopular,
+  sortByRandom,
+} from "../actions";
 import PostItem from "./PostItem";
 
-const Container = styled.div`
+const MainContainer = styled.div`
   background-color: ${(props) => props.theme.backgroundPrimary};
   min-height: 100vh;
 `;
@@ -44,6 +49,31 @@ const StyledButton = styled.button`
   background-color: ${(props) => props.theme.buttonBackgroundPrimary};
 `;
 
+const Container = styled.div`
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const StyledHeader = styled.h1``;
+
+const SortWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  border: 1px solid ${(props) => props.theme.borderPrimary};
+  height: 2rem;
+  width: 100%;
+  background-color: ${(props) => props.theme.buttonBackgroundPrimary};
+  color: ${(props) => props.theme.buttonPrimary};
+`;
+
+const StyledText = styled.span`
+  margin: 0 0.2rem;
+  font-size: 1rem;
+`;
+
 function Posts() {
   const posts = useSelector((state) => state.posts.posts);
   const loading = useSelector((state) => state.posts.loading);
@@ -61,8 +91,28 @@ function Posts() {
     history.push(`/posts/${postId}`);
   }
 
+  function handleLatest() {
+    dispatch(sortByLatest());
+  }
+
+  function handlePopular() {
+    dispatch(sortByPopular());
+  }
+
+  function handleRandom() {
+    dispatch(sortByRandom());
+  }
+
   return (
-    <Container>
+    <MainContainer>
+      <Container>
+        <StyledHeader>Confessions</StyledHeader>
+        <SortWrapper>
+          <StyledText onClick={handleLatest}>Lates</StyledText>
+          <StyledText onClick={handlePopular}>Popular</StyledText>
+          <StyledText onClick={handleRandom}>Random</StyledText>
+        </SortWrapper>
+      </Container>
       <Wrapper>
         <PostList>
           {loading && !error ? (
@@ -70,7 +120,6 @@ function Posts() {
           ) : !loading && error ? (
             <p>Could not get posts</p>
           ) : (
-            posts &&
             posts.map((post) => (
               <PostItem
                 post={post}
@@ -91,7 +140,7 @@ function Posts() {
           </StyledButton>
         </Confess>
       </Wrapper>
-    </Container>
+    </MainContainer>
   );
 }
 

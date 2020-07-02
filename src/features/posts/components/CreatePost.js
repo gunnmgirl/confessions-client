@@ -65,9 +65,10 @@ function CreatePost() {
           upvotes: 0,
           downvotes: 0,
           comments: [],
+          date: new Date(),
         })
       );
-      history.push("/posts");
+      history.push("/");
     },
     validationSchema,
   });
