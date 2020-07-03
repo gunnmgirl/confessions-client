@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
   posts: [],
+  page: 1,
   post: {
     text: "",
     upvotes: 0,
@@ -36,11 +37,12 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         loading: true,
         error: false,
+        page: action.payload,
       };
     case "GET_POSTS_SUCCESS":
       return {
         ...state,
-        posts: [...state.posts, ...action.payload],
+        posts: action.payload,
         loading: false,
         error: false,
       };

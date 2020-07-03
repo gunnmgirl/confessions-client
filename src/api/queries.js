@@ -1,7 +1,7 @@
 import axios from "../http";
 
-function getPosts() {
-  return axios.get("/posts");
+function getPosts(payload) {
+  return axios.get(`/posts?page=${payload}`);
 }
 
 function getPost(payload) {

@@ -15,9 +15,11 @@ export const sortByRandom = () => {
     type: "SORT_BY_RANDOM",
   };
 };
-export const getPosts = () => {
+
+export const getPosts = (payload) => {
   return {
     type: "GET_POSTS_REQUEST",
+    payload,
   };
 };
 
