@@ -9,6 +9,7 @@ import {
   sortByLatest,
   sortByPopular,
   sortByRandom,
+  getPostsBySearchTerm,
 } from "../actions";
 import PostItem from "./PostItem";
 import { ArrowLeftCircle, ArrowRightCircle } from "react-feather";
@@ -85,7 +86,7 @@ const StyledIcon = styled.div`
   color: ${(props) => props.theme.iconPrimary};
 `;
 
-const StyledSearch = styled.div`
+const StyledSearch = styled.form`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -110,25 +111,23 @@ function Posts(props) {
   const loading = useSelector((state) => state.posts.loading);
   const error = useSelector((state) => state.posts.error);
   const page = useSelector((state) => state.posts.page);
+  const searchInput = useSelector((state) => state.posts.searchTerm);
   const dispatch = useDispatch();
   const history = useHistory();
   const query = qs.parse(props.location.search);
   const [searchTerm, setSearchTerm] = React.useState("");
-  const [filteredPosts, setFilteredPosts] = React.useState([]);
 
   React.useEffect(() => {
     if (!posts || posts.length === 0) {
-      if (query.page) {
+      if (query.term) {
+        dispatch(getPostsBySearchTerm(query.term));
+      } else if (query.page) {
         dispatch(getPosts(Number(query.page)));
       } else {
         dispatch(getPosts(page));
       }
     }
-    const results = posts.filter((post) =>
-      post.text.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredPosts(results);
-  }, [dispatch, posts, page, query.page, searchTerm]);
+  }, [dispatch, posts, page, query.page, query.term]);
 
   function handleOnClick(postId) {
     history.push(`/posts/${postId}`);
@@ -144,6 +143,13 @@ function Posts(props) {
 
   function handleRandom() {
     dispatch(sortByRandom());
+  }
+
+  function handleOnSearchSubmit(event) {
+    event.preventDefault();
+    history.push(`?term=${searchTerm}`);
+    dispatch(getPostsBySearchTerm(searchTerm));
+    setSearchTerm("");
   }
 
   return (
@@ -164,7 +170,7 @@ function Posts(props) {
             <p>Could not get posts</p>
           ) : (
             <>
-              <StyledSearch>
+              <StyledSearch onSubmit={(event) => handleOnSearchSubmit(event)}>
                 <StyledInput
                   placeholder="Search Posts"
                   type="search"
@@ -172,7 +178,8 @@ function Posts(props) {
                   onChange={(event) => setSearchTerm(event.target.value)}
                 />
               </StyledSearch>
-              {filteredPosts.map((post) => (
+              {searchInput ? <p>Rezultati pretrage za: {searchInput}</p> : null}
+              {posts.map((post) => (
                 <PostItem
                   post={post}
                   key={post._id}

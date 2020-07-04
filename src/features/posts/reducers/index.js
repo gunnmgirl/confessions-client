@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
   posts: [],
   page: 1,
+  searchTerm: "",
   post: {
     text: "",
     upvotes: 0,
@@ -32,6 +33,26 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         posts: state.posts.concat().sort(),
       };
+    case "GET_POSTS_BY_SEARCH_TERM_REQUEST":
+      return {
+        ...state,
+        loading: true,
+        error: false,
+        searchTerm: action.payload,
+      };
+    case "GET_POSTS_BY_SEARCH_TERM_FAILURE":
+      return {
+        ...state,
+        loading: false,
+        error: true,
+      };
+    case "GET_POSTS_BY_SEARCH_TERM_SUCCESS":
+      return {
+        ...state,
+        loading: false,
+        error: false,
+        posts: action.payload,
+      };
     case "GET_POSTS_REQUEST":
       return {
         ...state,
@@ -45,6 +66,7 @@ export default (state = INITIAL_STATE, action) => {
         posts: action.payload,
         loading: false,
         error: false,
+        searchTerm: "",
       };
     case "GET_POSTS_FAILURE":
       return {

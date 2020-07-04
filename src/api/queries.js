@@ -4,6 +4,10 @@ function getPosts(payload) {
   return axios.get(`/posts?page=${payload}`);
 }
 
+function getPostsBySearchTerm(payload) {
+  return axios.get(`/posts/search?term=${payload}`);
+}
+
 function getPost(payload) {
   return axios.get(`/posts/${payload}`);
 }
@@ -11,6 +15,7 @@ function getPost(payload) {
 export default {
   getPosts,
   getPost,
+  getPostsBySearchTerm,
 };
 
 export { getPosts, getPost };

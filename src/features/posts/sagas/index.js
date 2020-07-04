@@ -23,6 +23,16 @@ function* getPost(action) {
   }
 }
 
+function* getPostsBySearchTerm(action) {
+  try {
+    const data = yield call(queries.getPostsBySearchTerm, action.payload);
+    const posts = data.data;
+    yield put({ type: "GET_POSTS_BY_SEARCH_TERM_SUCCESS", payload: posts });
+  } catch (error) {
+    yield put({ type: "GET_POSTS_BY_SEARCH_TERM_FAILURE", error });
+  }
+}
+
 function* createPost(action) {
   try {
     const result = yield call(mutatios.postPost, action.payload);
@@ -35,7 +45,6 @@ function* createPost(action) {
 function* createComment(action) {
   try {
     const result = yield call(mutatios.postComment, action.payload);
-    console.log("result u sagi", result);
     yield put({ type: "CREATE_COMMENT_SUCCESS", payload: result.data });
   } catch (error) {
     yield put({ type: "CREATE_COMMENT_FAILURE", error });
@@ -45,6 +54,7 @@ function* createComment(action) {
 const saga = function* () {
   yield takeLatest("GET_POSTS_REQUEST", getPosts);
   yield takeLatest("GET_POST_REQUEST", getPost);
+  yield takeLatest("GET_POSTS_BY_SEARCH_TERM_REQUEST", getPostsBySearchTerm);
   yield takeLatest("CREATE_POST_REQUEST", createPost);
   yield takeLatest("CREATE_COMMENT_REQUEST", createComment);
 };

@@ -23,6 +23,13 @@ export const getPosts = (payload) => {
   };
 };
 
+export const getPostsBySearchTerm = (payload) => {
+  return {
+    type: "GET_POSTS_BY_SEARCH_TERM_REQUEST",
+    payload,
+  };
+};
+
 export const getPost = (payload) => {
   return {
     type: "GET_POST_REQUEST",
