@@ -85,6 +85,26 @@ const StyledIcon = styled.div`
   color: ${(props) => props.theme.primary};
 `;
 
+const StyledSearch = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid ${(props) => props.theme.borderPrimary};
+  margin-bottom: 1rem;
+`;
+
+const StyledInput = styled.input`
+  border: 1px solid ${(props) => props.theme.borderPrimary};
+  background-color: ${(props) => props.theme.backgroundSecondary};
+  color: ${(props) => props.theme.primary};
+  border-radius: 5px;
+  text-align: center;
+  width: 70%;
+  height: 1.8rem;
+`;
+
 function Posts(props) {
   const posts = useSelector((state) => state.posts.posts);
   const loading = useSelector((state) => state.posts.loading);
@@ -93,6 +113,8 @@ function Posts(props) {
   const dispatch = useDispatch();
   const history = useHistory();
   const query = qs.parse(props.location.search);
+  const [searchTerm, setSearchTerm] = React.useState("");
+  const [filteredPosts, setFilteredPosts] = React.useState([]);
 
   React.useEffect(() => {
     if (!posts || posts.length === 0) {
@@ -102,7 +124,11 @@ function Posts(props) {
         dispatch(getPosts(page));
       }
     }
-  }, [dispatch, posts, page, query.page]);
+    const results = posts.filter((post) =>
+      post.text.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredPosts(results);
+  }, [dispatch, posts, page, query.page, searchTerm]);
 
   function handleOnClick(postId) {
     history.push(`/posts/${postId}`);
@@ -138,7 +164,15 @@ function Posts(props) {
             <p>Could not get posts</p>
           ) : (
             <>
-              {posts.map((post) => (
+              <StyledSearch>
+                <StyledInput
+                  placeholder="Search Posts"
+                  type="search"
+                  value={searchTerm}
+                  onChange={(event) => setSearchTerm(event.target.value)}
+                />
+              </StyledSearch>
+              {filteredPosts.map((post) => (
                 <PostItem
                   post={post}
                   key={post._id}

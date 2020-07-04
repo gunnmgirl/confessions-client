@@ -3,7 +3,7 @@ const lightTheme = {
   backgroundSecondary: "#FFFFFF",
   primary: " #050505",
   secondary: "rgba(28,28,28,0.2)",
-  borderPrimary: "rgba(128, 128, 128, 0.5)",
+  borderPrimary: "rgba(46,50,53,0.5)",
   buttonPrimary: "#FFF",
   buttonBackgroundPrimary: "rgb(128, 128, 128)",
 };
