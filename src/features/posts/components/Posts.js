@@ -82,7 +82,7 @@ const Nav = styled.div`
 
 const StyledIcon = styled.div`
   margin: 0 1rem;
-  color: ${(props) => props.theme.primary};
+  color: ${(props) => props.theme.iconPrimary};
 `;
 
 const StyledSearch = styled.div`
@@ -183,6 +183,8 @@ function Posts(props) {
                 {page === 1 ? null : (
                   <StyledIcon>
                     <ArrowLeftCircle
+                      strokeWidth="1.5"
+                      size="22"
                       onClick={() => {
                         history.push(`?page=${page - 1}`);
                         dispatch(getPosts(page - 1));
@@ -192,6 +194,8 @@ function Posts(props) {
                 )}
                 <StyledIcon>
                   <ArrowRightCircle
+                    strokeWidth="1.5"
+                    size="22"
                     onClick={() => {
                       history.push(`?page=${page + 1}`);
                       dispatch(getPosts(page + 1));

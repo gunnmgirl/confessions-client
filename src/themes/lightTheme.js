@@ -6,6 +6,7 @@ const lightTheme = {
   borderPrimary: "rgba(46,50,53,0.5)",
   buttonPrimary: "#FFF",
   buttonBackgroundPrimary: "rgb(128, 128, 128)",
+  iconPrimary: "rgba(0, 0, 0, 0.8)",
 };
 
 export default lightTheme;
