@@ -59,7 +59,10 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const StyledHeader = styled.h1``;
+const StyledHeader = styled.h1`
+  color: ${(props) => props.theme.iconPrimary};
+  margin: 1rem 0;
+`;
 
 const SortWrapper = styled.div`
   display: flex;
@@ -118,7 +121,7 @@ function Posts(props) {
   const [searchTerm, setSearchTerm] = React.useState("");
 
   React.useEffect(() => {
-    if (!posts || posts.length === 0) {
+    if (posts.length === 0) {
       if (query.term) {
         dispatch(getPostsBySearchTerm(query.term));
       } else if (query.page) {
@@ -127,7 +130,7 @@ function Posts(props) {
         dispatch(getPosts(page));
       }
     }
-  }, [dispatch, posts, page, query.page, query.term]);
+  }, []);
 
   function handleOnClick(postId) {
     history.push(`/posts/${postId}`);
@@ -166,8 +169,8 @@ function Posts(props) {
         <PostList>
           {loading && !error ? (
             <p>Loading..</p>
-          ) : !loading && error ? (
-            <p>Could not get posts</p>
+          ) : !loading && posts.length === 0 ? (
+            <p>No posts to show</p>
           ) : (
             <>
               <StyledSearch onSubmit={(event) => handleOnSearchSubmit(event)}>
@@ -178,7 +181,7 @@ function Posts(props) {
                   onChange={(event) => setSearchTerm(event.target.value)}
                 />
               </StyledSearch>
-              {searchInput ? <p>Rezultati pretrage za: {searchInput}</p> : null}
+              {searchInput ? <p>Search results for: {searchInput}</p> : null}
               {posts.map((post) => (
                 <PostItem
                   post={post}
