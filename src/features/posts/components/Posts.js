@@ -4,13 +4,7 @@ import styled from "styled-components";
 import { useHistory } from "react-router-dom";
 import * as qs from "query-string";
 
-import {
-  getPosts,
-  sortByLatest,
-  sortByPopular,
-  sortByRandom,
-  getPostsBySearchTerm,
-} from "../actions";
+import { getPosts, getPostsBySearchTerm } from "../actions";
 import PostItem from "./PostItem";
 import { ArrowLeftCircle, ArrowRightCircle } from "react-feather";
 
@@ -115,37 +109,40 @@ function Posts(props) {
   const error = useSelector((state) => state.posts.error);
   const page = useSelector((state) => state.posts.page);
   const searchInput = useSelector((state) => state.posts.searchTerm);
+  const sortBy = useSelector((state) => state.posts.sortBy);
   const dispatch = useDispatch();
   const history = useHistory();
   const query = qs.parse(props.location.search);
   const [searchTerm, setSearchTerm] = React.useState("");
+
+  console.log("sortBy", sortBy);
 
   React.useEffect(() => {
     if (posts.length === 0) {
       if (query.term) {
         dispatch(getPostsBySearchTerm(query.term));
       } else if (query.page) {
-        dispatch(getPosts(Number(query.page)));
+        dispatch(getPosts({ page: Number(query.page), sortBy: sortBy }));
       } else {
-        dispatch(getPosts(page));
+        dispatch(getPosts({ page: page, sortBy: sortBy }));
       }
     }
-  }, []);
+  }, [dispatch, sortBy, page, posts.length, query.page, query.term]);
 
   function handleOnClick(postId) {
     history.push(`/posts/${postId}`);
   }
 
   function handleLatest() {
-    dispatch(sortByLatest());
+    dispatch(getPosts({ page: page, sortBy: "latest" }));
   }
 
   function handlePopular() {
-    dispatch(sortByPopular());
+    dispatch(getPosts({ page: page, sortBy: "popular" }));
   }
 
   function handleRandom() {
-    dispatch(sortByRandom());
+    dispatch(getPosts({ page: page, sortBy: "random" }));
   }
 
   function handleOnSearchSubmit(event) {
@@ -197,7 +194,7 @@ function Posts(props) {
                       size="22"
                       onClick={() => {
                         history.push(`?page=${page - 1}`);
-                        dispatch(getPosts(page - 1));
+                        dispatch(getPosts({ page: page - 1, sortBy: sortBy }));
                       }}
                     />
                   </StyledIcon>
@@ -208,7 +205,7 @@ function Posts(props) {
                     size="22"
                     onClick={() => {
                       history.push(`?page=${page + 1}`);
-                      dispatch(getPosts(page + 1));
+                      dispatch(getPosts({ page: page + 1, sortBy: sortBy }));
                     }}
                   />
                 </StyledIcon>

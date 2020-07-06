@@ -1,7 +1,9 @@
 import axios from "../http";
 
 function getPosts(payload) {
-  return axios.get(`/posts?page=${payload}`);
+  return axios.get(`/posts?page=${payload.page}`, {
+    params: { sortBy: payload.sortBy },
+  });
 }
 
 function getPostsBySearchTerm(payload) {

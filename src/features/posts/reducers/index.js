@@ -2,6 +2,7 @@ const INITIAL_STATE = {
   posts: [],
   page: 1,
   searchTerm: "",
+  sortBy: "random",
   post: {
     text: "",
     upvotes: 0,
@@ -13,26 +14,8 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
+  console.log("akcija u reduceru ", action);
   switch (action.type) {
-    case "SORT_BY_LATEST":
-      return {
-        ...state,
-        posts: state.posts.concat().sort(function (a, b) {
-          return new Date(b.date) - new Date(a.date);
-        }),
-      };
-    case "SORT_BY_POPULAR":
-      return {
-        ...state,
-        posts: state.posts.concat().sort(function (a, b) {
-          return b.upvotes - a.upvotes;
-        }),
-      };
-    case "SORT_BY_RANDOM":
-      return {
-        ...state,
-        posts: state.posts.concat().sort(),
-      };
     case "GET_POSTS_BY_SEARCH_TERM_REQUEST":
       return {
         ...state,
@@ -58,7 +41,8 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         loading: true,
         error: false,
-        page: action.payload,
+        page: action.payload.page,
+        sortBy: action.payload.sortBy,
       };
     case "GET_POSTS_SUCCESS":
       return {
