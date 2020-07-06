@@ -110,12 +110,11 @@ function Posts(props) {
   const page = useSelector((state) => state.posts.page);
   const searchInput = useSelector((state) => state.posts.searchTerm);
   const sortBy = useSelector((state) => state.posts.sortBy);
+  const totalPosts = useSelector((state) => state.posts.totalPosts);
   const dispatch = useDispatch();
   const history = useHistory();
   const query = qs.parse(props.location.search);
   const [searchTerm, setSearchTerm] = React.useState("");
-
-  console.log("sortBy", sortBy);
 
   React.useEffect(() => {
     if (posts.length === 0) {
@@ -199,16 +198,18 @@ function Posts(props) {
                     />
                   </StyledIcon>
                 )}
-                <StyledIcon>
-                  <ArrowRightCircle
-                    strokeWidth="1.5"
-                    size="22"
-                    onClick={() => {
-                      history.push(`?page=${page + 1}`);
-                      dispatch(getPosts({ page: page + 1, sortBy: sortBy }));
-                    }}
-                  />
-                </StyledIcon>
+                {page >= totalPosts / 3 ? null : (
+                  <StyledIcon>
+                    <ArrowRightCircle
+                      strokeWidth="1.5"
+                      size="22"
+                      onClick={() => {
+                        history.push(`?page=${page + 1}`);
+                        dispatch(getPosts({ page: page + 1, sortBy: sortBy }));
+                      }}
+                    />
+                  </StyledIcon>
+                )}
               </Nav>
             </>
           )}

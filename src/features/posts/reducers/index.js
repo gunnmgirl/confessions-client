@@ -1,6 +1,7 @@
 const INITIAL_STATE = {
   posts: [],
   page: 1,
+  totalPosts: 0,
   searchTerm: "",
   sortBy: "random",
   post: {
@@ -34,7 +35,8 @@ export default (state = INITIAL_STATE, action) => {
         ...state,
         loading: false,
         error: false,
-        posts: action.payload,
+        posts: action.payload.filteredPosts,
+        totalPosts: action.payload.totalPosts,
       };
     case "GET_POSTS_REQUEST":
       return {
@@ -47,10 +49,11 @@ export default (state = INITIAL_STATE, action) => {
     case "GET_POSTS_SUCCESS":
       return {
         ...state,
-        posts: action.payload,
+        posts: action.payload.posts,
         loading: false,
         error: false,
         searchTerm: "",
+        totalPosts: action.payload.totalPosts,
       };
     case "GET_POSTS_FAILURE":
       return {
