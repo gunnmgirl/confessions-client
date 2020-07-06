@@ -11,6 +11,7 @@ import { ArrowLeftCircle, ArrowRightCircle } from "react-feather";
 const MainContainer = styled.div`
   background-color: ${(props) => props.theme.backgroundPrimary};
   min-height: 100vh;
+  color: ${(props) => props.theme.primary};
 `;
 
 const Wrapper = styled.div`
