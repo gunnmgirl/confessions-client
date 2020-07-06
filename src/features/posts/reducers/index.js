@@ -15,7 +15,6 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
-  console.log("akcija u reduceru ", action);
   switch (action.type) {
     case "GET_POSTS_BY_SEARCH_TERM_REQUEST":
       return {

@@ -36,6 +36,7 @@ const Confess = styled.div`
   flex-direction: column;
   width: 100%;
   height: min-content;
+  margin-top: 5rem;
 `;
 
 const StyledButton = styled.button`
@@ -198,7 +199,7 @@ function Posts(props) {
                     />
                   </StyledIcon>
                 )}
-                {page >= totalPosts / 3 ? null : (
+                {page >= totalPosts / 5 ? null : (
                   <StyledIcon>
                     <ArrowRightCircle
                       strokeWidth="1.5"

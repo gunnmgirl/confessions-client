@@ -20,4 +20,4 @@ export default {
   getPostsBySearchTerm,
 };
 
-export { getPosts, getPost };
+export { getPosts, getPost, getPostsBySearchTerm };

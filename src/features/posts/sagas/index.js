@@ -7,7 +7,6 @@ function* getPosts(action) {
   try {
     const data = yield call(queries.getPosts, action.payload);
     const result = data.data;
-    console.log("result u sagi ", result);
     yield put({ type: "GET_POSTS_SUCCESS", payload: result });
   } catch (error) {
     yield put({ type: "GET_POSTS_FAILURE", error });
