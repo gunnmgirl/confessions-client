@@ -15,13 +15,16 @@ const INITIAL_STATE = {
 };
 
 export default (state = INITIAL_STATE, action) => {
+  console.log("akcija u reduceru ", action);
   switch (action.type) {
     case "GET_POSTS_BY_SEARCH_TERM_REQUEST":
       return {
         ...state,
         loading: true,
         error: false,
-        searchTerm: action.payload,
+        searchTerm: action.payload.searchTerm,
+        page: action.payload.page,
+        sortBy: action.payload.sortBy,
       };
     case "GET_POSTS_BY_SEARCH_TERM_FAILURE":
       return {
@@ -36,6 +39,7 @@ export default (state = INITIAL_STATE, action) => {
         error: false,
         posts: action.payload.filteredPosts,
         totalPosts: action.payload.totalPosts,
+        searchTerm: "",
       };
     case "GET_POSTS_REQUEST":
       return {
@@ -51,7 +55,6 @@ export default (state = INITIAL_STATE, action) => {
         posts: action.payload.posts,
         loading: false,
         error: false,
-        searchTerm: "",
         totalPosts: action.payload.totalPosts,
       };
     case "GET_POSTS_FAILURE":

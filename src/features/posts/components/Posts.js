@@ -121,36 +121,111 @@ function Posts(props) {
   React.useEffect(() => {
     if (posts.length === 0) {
       if (query.term) {
-        dispatch(getPostsBySearchTerm(query.term));
-      } else if (query.page) {
-        dispatch(getPosts({ page: Number(query.page), sortBy: sortBy }));
+        dispatch(
+          getPostsBySearchTerm({
+            page: Number(query.page) || 1,
+            sortBy: sortBy,
+            searchTerm: query.term,
+          })
+        );
       } else {
-        dispatch(getPosts({ page: page, sortBy: sortBy }));
+        dispatch(
+          getPosts({
+            page: Number(query.page) || 1,
+            sortBy: sortBy,
+          })
+        );
       }
     }
-  }, [dispatch, sortBy, page, posts.length, query.page, query.term]);
+  }, [dispatch, posts.length, sortBy, query.page, query.term]);
 
   function handleOnClick(postId) {
     history.push(`/posts/${postId}`);
   }
 
   function handleLatest() {
-    dispatch(getPosts({ page: page, sortBy: "latest" }));
+    if (query.term) {
+      dispatch(
+        getPostsBySearchTerm({
+          page: page,
+          sortBy: "latest",
+          searchTerm: query.term,
+        })
+      );
+    } else {
+      dispatch(getPosts({ page: page, sortBy: "latest" }));
+    }
   }
 
   function handlePopular() {
-    dispatch(getPosts({ page: page, sortBy: "popular" }));
+    if (query.term) {
+      dispatch(
+        getPostsBySearchTerm({
+          page: page,
+          sortBy: "popular",
+          searchTerm: query.term,
+        })
+      );
+    } else {
+      dispatch(getPosts({ page: page, sortBy: "popular" }));
+    }
   }
 
   function handleRandom() {
-    dispatch(getPosts({ page: page, sortBy: "random" }));
+    if (query.term) {
+      dispatch(
+        getPostsBySearchTerm({
+          page: page,
+          sortBy: "random",
+          searchTerm: query.term,
+        })
+      );
+    } else {
+      dispatch(getPosts({ page: page, sortBy: "random" }));
+    }
   }
 
   function handleOnSearchSubmit(event) {
     event.preventDefault();
     history.push(`?term=${searchTerm}`);
-    dispatch(getPostsBySearchTerm(searchTerm));
+    dispatch(
+      getPostsBySearchTerm({
+        searchTerm: searchTerm,
+        page: page,
+        sortBy: sortBy,
+      })
+    );
     setSearchTerm("");
+  }
+
+  function handleNext() {
+    history.push(`?page=${page + 1}`);
+    if (query.term) {
+      dispatch(
+        getPostsBySearchTerm({
+          page: page + 1,
+          sortBy: sortBy,
+          searchTerm: query.term,
+        })
+      );
+    } else {
+      dispatch(getPosts({ page: page + 1, sortBy: sortBy }));
+    }
+  }
+
+  function handlePrevious() {
+    history.push(`?page=${page - 1}`);
+    if (query.term) {
+      dispatch(
+        getPostsBySearchTerm({
+          page: page - 1,
+          sortBy: sortBy,
+          searchTerm: query.term,
+        })
+      );
+    } else {
+      dispatch(getPosts({ page: page - 1, sortBy: sortBy }));
+    }
   }
 
   return (
@@ -193,22 +268,17 @@ function Posts(props) {
                     <ArrowLeftCircle
                       strokeWidth="1.5"
                       size="22"
-                      onClick={() => {
-                        history.push(`?page=${page - 1}`);
-                        dispatch(getPosts({ page: page - 1, sortBy: sortBy }));
-                      }}
+                      onClick={handlePrevious}
                     />
                   </StyledIcon>
                 )}
-                {page >= totalPosts / 5 ? null : (
+                {console.log("page ", page)}
+                {page === Math.ceil(totalPosts / 5) ? null : (
                   <StyledIcon>
                     <ArrowRightCircle
                       strokeWidth="1.5"
                       size="22"
-                      onClick={() => {
-                        history.push(`?page=${page + 1}`);
-                        dispatch(getPosts({ page: page + 1, sortBy: sortBy }));
-                      }}
+                      onClick={handleNext}
                     />
                   </StyledIcon>
                 )}

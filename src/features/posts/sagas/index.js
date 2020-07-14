@@ -4,11 +4,14 @@ import queries from "../../../api/queries";
 import mutatios from "../../../api/mutations";
 
 function* getPosts(action) {
+  console.log("akcija u sagi ", action);
   try {
     const data = yield call(queries.getPosts, action.payload);
+    console.log("data u sagi", data);
     const result = data.data;
     yield put({ type: "GET_POSTS_SUCCESS", payload: result });
   } catch (error) {
+    console.log("error: ", error);
     yield put({ type: "GET_POSTS_FAILURE", error });
   }
 }
@@ -25,8 +28,10 @@ function* getPost(action) {
 
 function* getPostsBySearchTerm(action) {
   try {
+    console.log("akcija u sagi ", action);
     const data = yield call(queries.getPostsBySearchTerm, action.payload);
     const result = data.data;
+    console.log("result u sagi ", result);
     yield put({ type: "GET_POSTS_BY_SEARCH_TERM_SUCCESS", payload: result });
   } catch (error) {
     yield put({ type: "GET_POSTS_BY_SEARCH_TERM_FAILURE", error });

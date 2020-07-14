@@ -1,13 +1,24 @@
 import axios from "../http";
 
 function getPosts(payload) {
-  return axios.get(`/posts?page=${payload.page}`, {
-    params: { sortBy: payload.sortBy },
+  console.log("payload u queries", payload);
+  return axios.get(`/posts`, {
+    params: {
+      page: payload.page,
+      sortBy: payload.sortBy,
+    },
   });
 }
 
 function getPostsBySearchTerm(payload) {
-  return axios.get(`/posts/search?term=${payload}`);
+  console.log("payload u queries", payload);
+  return axios.get(`/posts/search`, {
+    params: {
+      page: payload.page,
+      searchTerm: payload.searchTerm,
+      sortBy: payload.sortBy,
+    },
+  });
 }
 
 function getPost(payload) {
